@@ -33,58 +33,70 @@ void rowOp(matrix &m, unsigned int a, unsigned int b, double k) //Row A = Row A 
 	}
 }
 
-void gauss(matrix &m) //Nx(N+1)
+vector<double> gauss(matrix &m) //Nx(N+1)
 {
-	matrix n = m; //Makes a copy of the matrix so we can compare it to the initial one
-	double x, y, z; // Variables to store the results
+	vector<double> res = {0, 0, 0}; // Variables to store the results
 
 	unsigned int i, j;
 
 
-	for(i = 0; i < n.size(); i++)
+	for(i = 0; i < m.size(); i++)
 	{
-		rowOp(n, i, i, 1-1/n[i][i]);
-		for(j = 0; j < n.size(); j++)
+		rowOp(m, i, i, 1-1/m[i][i]);
+		for(j = i+1; j < m.size(); j++)
 		{
 			if(i != j)
 			{
-				rowOp(n, j, i, m[j][i]);
+				rowOp(m, j, i, m[j][i]);
 			}
 		}
 	}
-	
-	cout << "Solved matrix: " << endl;
-	printMatrix(n);
 
+	res.at(2) = m[2][3]/m[2][2];
+	res.at(1) = (m[1][3] - m[1][2] * res.at(2))/m[1][1];
+	res.at(0) = (m[0][3] - m[0][2] * res.at(2) - m[0][1] * res.at(1))/m[0][0];
 
-	z = n[2][3]/n[2][2];
-	y = (n[1][3] - n[1][2] * z)/n[1][1];
-	x = (n[0][3] - n[0][2] * z - n[0][1] * y)/n[0][0];
+	return res;
 
-	cout << "x = " << x << endl;
-	cout << "y = " << y << endl;
-	cout << "z = " << z << endl << endl;
-
-
-	cout << "Residue: " << endl;
-	cout << "First line: " << m[0][3] - (m[0][0] * x + m[0][1] * y + m[0][2] * z) << endl;
-	cout << "Second line: " << m[1][3] - (m[1][0] * x + m[1][1] * y + m[1][2] * z) << endl;
-	cout << "Third line: " << m[2][3] - (m[2][0] * x + m[2][1] * y + m[2][2] * z) << endl;
 }
 
+void printResult(vector<double> res)
+{
+	cout << "x = " << res.at(0) << endl;
+	cout << "y = " << res.at(1) << endl;
+	cout << "z = " << res.at(2) << endl << endl;
+}
+
+void printResidue(matrix &m, vector<double> res)
+{
+	cout << "Residue: " << endl;
+	cout << "1st line: " << m[0][3] - (m[0][0] * res.at(0) + m[0][1] * res.at(1) + m[0][2] * res.at(2)) << endl;
+	cout << "2nd line: " << m[1][3] - (m[1][0] * res.at(0) + m[1][1] * res.at(1) + m[1][2] * res.at(2)) << endl;
+	cout << "3rd line: " << m[2][3] - (m[2][0] * res.at(0) + m[2][1] * res.at(1) + m[2][2] * res.at(2)) << endl;
+}
 
 
 int main()
 {
+	vector<double> result;
 	matrix mat{{9, 1, 5, 25},
 			   {1, 4, 6, 16},
 			   {2, 9, 7, 29}};
+	matrix original = mat; //Makes a copy of the matrix so we can compare it to the initial one
 
-	cout << "Initial matrix: " << endl;
+	cout << "Initial matrix: " << endl; //Prints original matrix
+	printMatrix(original);
+
+	result = gauss(mat); //Solves matrix "mat" and puts results to the vector "result"
+
+	cout << "Solved matrix: " << endl; //Prints solved matrix
 	printMatrix(mat);
 
-	gauss(mat);
+	printResult(result); //Prints (x, y, z)
 
+	printResidue(original, result); //Prints residue (plugs result in matrix and compares independent terms with the original one)
+
+	
 
 	return 0;
 }

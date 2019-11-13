@@ -1,25 +1,22 @@
 #include <iostream>
-//#include <cmath>
 
-#define PASSOS 100
+#define STEPS_TRAPEZIUM 150
+#define STEPS_SIMPSON 1
 
 using namespace std;
 
 double f(double x) {return x*x;}
 
-double trapeziumRule(double a, double b, double n)
+double trapeziumRule(double a, double b, int n)
 {
 	double h = (b-a)/n;
 	double x = a + h;
 	double soma = f(a) + f(b), temp = 0;
 
-	for(double i = 1; i <= n - 1; i += 1)
+	for(int i = 1; i <= n - 1; i += 1)
 	{
 		temp += f(x);
 		x += h;
-		//cout << "xt: " << xt << endl;
-		//cout << "f(xt): " << f(xt) << endl;
-		//cout << "temp: " << temp << endl;
 	}
 	temp *= 2;
 	soma += temp;
@@ -28,24 +25,26 @@ double trapeziumRule(double a, double b, double n)
 	return soma;
 }
 
-double simpsonRule(double a, double b, double n)
+double simpsonRule(double a, double b, int n)
 {
+	double h = ((b-a)/n);
 	n = n/2;
-	double h = (b-a)/n;
-	double x = a + h;
+	
+	
+	double x;
 	double soma = f(a) + f(b), temp = 0, temp2 = 0;
 
-	for(double i = 1; i <= 2*n - 1; i += 2)
+	for(int i = 1; i <= 2*n - 1; i += 2)
 	{
+		x = a + i*h;
 		temp += f(x);
-		x += h;
 	}
 	temp *= 4;
-
-	for(double i = 2; i <= 2*n - 2; i += 2)
+	
+	for(int i = 2; i <= 2*n - 2; i += 2)
 	{
+		x = a + i*h;
 		temp2 += f(x);
-		x += h;
 	}
 	temp2 *= 2;
 	soma += temp + temp2;
@@ -57,12 +56,12 @@ double simpsonRule(double a, double b, double n)
 int main()
 {
 	double expectedResult = 64.0/3.0;
-	double trapRule = trapeziumRule(0, 4, PASSOS);
-	double simpRule = simpsonRule(0, 4, PASSOS);
+	double trapRule = trapeziumRule(0, 4, STEPS_TRAPEZIUM);
+	double simpRule = simpsonRule(0, 4, STEPS_SIMPSON);
 	double Et0 = expectedResult - trapRule;
-	double Et1 = expectedResult - trapeziumRule(0, 4, PASSOS*2);
+	double Et1 = expectedResult - trapeziumRule(0, 4, STEPS_TRAPEZIUM*2);
 	double Es0 = expectedResult - simpRule;
-	double Es1 = expectedResult - simpsonRule(0, 4, PASSOS*2);
+	double Es1 = expectedResult - simpsonRule(0, 4, STEPS_SIMPSON*2);
 
 	cout << "Expected: " << expectedResult << endl << endl;
 

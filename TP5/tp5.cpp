@@ -7,7 +7,7 @@ using namespace std;
 
 double f(double x) {return x*x;}
 
-double trapeziumRule(double a, double b, int n)
+double trapeziumRule(double a, double b, int n, double (*f)(double))
 {
 	double h = (b-a)/n;
 	double x = a + h;
@@ -25,7 +25,7 @@ double trapeziumRule(double a, double b, int n)
 	return soma;
 }
 
-double simpsonRule(double a, double b, int n)
+double simpsonRule(double a, double b, int n, double (*f)(double))
 {
 	double h = ((b-a)/n);
 	n = n/2;
@@ -56,12 +56,12 @@ double simpsonRule(double a, double b, int n)
 int main()
 {
 	double expectedResult = 64.0/3.0;
-	double trapRule = trapeziumRule(0, 4, STEPS_TRAPEZIUM);
-	double simpRule = simpsonRule(0, 4, STEPS_SIMPSON);
+	double trapRule = trapeziumRule(0, 4, STEPS_TRAPEZIUM, f);
+	double simpRule = simpsonRule(0, 4, STEPS_SIMPSON, f);
 	double Et0 = expectedResult - trapRule;
-	double Et1 = expectedResult - trapeziumRule(0, 4, STEPS_TRAPEZIUM*2);
+	double Et1 = expectedResult - trapeziumRule(0, 4, STEPS_TRAPEZIUM*2, f);
 	double Es0 = expectedResult - simpRule;
-	double Es1 = expectedResult - simpsonRule(0, 4, STEPS_SIMPSON*2);
+	double Es1 = expectedResult - simpsonRule(0, 4, STEPS_SIMPSON*2, f);
 
 	cout << "Expected: " << expectedResult << endl << endl;
 

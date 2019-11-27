@@ -47,6 +47,16 @@ vector<pair<double, double>> rk2(double x0, double y0, double h, int numIter, do
 }
 
 
+vector<pair<double, double>> rk4(double x0, double y0, double h, int numIter, double (*f)(double, double))
+{
+	vector<pair<double, double>> result;
+	double x = x0, y = y0;
+
+
+	return result;
+}
+
+
 int main()
 {
 	Gnuplot gp;

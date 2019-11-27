@@ -27,6 +27,15 @@ vector<pair<double, double>> euler(double x0, double y0, double h, int numIter, 
 }
 
 
+vector<pair<double, double>> improvedEuler(double x0, double y0, double h, int numIter, double (*f)(double, double))
+{
+	vector<pair<double, double>> result;
+
+
+
+	return result;
+}
+
 
 vector<pair<double, double>> rk2(double x0, double y0, double h, int numIter, double (*f)(double, double))
 {
@@ -67,15 +76,6 @@ vector<pair<double, double>> rk4(double x0, double y0, double h, int numIter, do
 
 		result.push_back(make_pair(x, y));
 	}
-
-	return result;
-}
-
-vector<pair<double, double>> improvedEuler(double x0, double y0, double h, int numIter, double (*f)(double, double))
-{
-	vector<pair<double, double>> result;
-
-
 
 	return result;
 }

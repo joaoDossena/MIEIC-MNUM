@@ -29,6 +29,8 @@ vector<tuple<double, double, double>> euler(double x0, double y0, double z0, dou
 	return result;
 }
 
+
+
 int main()
 {
 	Gnuplot gp;

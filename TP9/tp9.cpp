@@ -8,7 +8,7 @@ using namespace std;
 
 double f(double x) {return sin(x) * sin(x);}
 
-vector<double> thirds(double a, double b, double error, double (*f)(double)) //calculates a broad interval in which the function's minima is
+vector<double> thirds(double a, double b, double error, double (*f)(double)) //Calculates a broad interval in which the function's minima is
 {
 	double c, d, aux;
 	vector<double> result;

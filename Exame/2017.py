@@ -119,16 +119,18 @@ def euler(t, C, T):
 def rk4(t, C, T):
 	for i in range(2):
 		Td1 = f2(t, C, T)*0.25
-		Td2 = f2(t + 0.25/2, C, T + Td1/2)*0.25
-		Td3 = f2(t + 0.25/2, C, T + Td2/2)*0.25
-		Td4 = f2(t + 0.25, C, T + Td3)*0.25
+		Cd1 = f1(t, C, T)*0.25
+
+		Td2 = f2(t + 0.25/2, C + Cd1/2, T + Td1/2)*0.25
+		Cd2 = f1(t + 0.25/2, C + Cd1/2, T + Td1/2)*0.25
+
+		Td3 = f2(t + 0.25/2, C + Cd2/2, T + Td2/2)*0.25
+		Cd3 = f1(t + 0.25/2, C + Cd2/2, T + Td2/2)*0.25
+
+		Td4 = f2(t + 0.25, C + Cd3, T + Td3)*0.25
+		Cd4 = f1(t + 0.25, C + Cd3, T + Td3)*0.25
 
 		T += (Td2 + Td3)/3 + (Td1 + Td4)/6
-
-		Cd1 = f1(t, C, T)*0.25
-		Cd2 = f1(t + 0.25/2, C + Cd1/2, T)*0.25
-		Cd3 = f1(t + 0.25/2, C + Cd2/2, T)*0.25
-		Cd4 = f1(t + 0.25, C + Cd3, T)*0.25
 		C += (Cd2 + Cd3)/3 + (Cd1 + Cd4)/6
 
 		t += 0.25
@@ -138,3 +140,27 @@ def rk4(t, C, T):
 #rk4(0, 2.5, 25)
 
 ###################################### Pergunta 5 ###############################################
+def w(x, y):
+	return -1.1*x*y + 12*y + 7*x*x - 8*x
+def wx(x, y):
+	return -1.1*y + 14*x - 8
+def wy(x, y):
+	return -1.1*x + 12
+
+def grad(x, y, h):
+	xn = 0
+	yn = 0
+
+	for i in range(1):
+		xn = x - h*wx(x, y)
+		yn = y - h*wy(x, y)
+		if(w(xn, yn) < w(x, y)):
+			x = xn
+			y = yn
+			h *= 2
+		else:
+			h /= 2
+		print("(", x, ", ", y, ", ", w(x, y), ")")
+	return
+
+#grad(3, 1, 0.1)

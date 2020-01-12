@@ -5,6 +5,7 @@ This repository has all of my work for the subject of Numerical Methods
 ## To do:
 - [ ] Write on README.md all of the methods that I haven't done
 - [ ] Maybe do them
+- [ ] Update this file with my grade once the semester is over
 
 ## List of Contents:
 - Chapter 2 - Real Zeroes of Real Functions:

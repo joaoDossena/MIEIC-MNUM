@@ -103,41 +103,41 @@ def f1(t, C, T):
 def f2(t, C, T):
 	return 30 * m.exp(-0.5/(T+273)) * C - 0.5*(T-20)
 
-def euler(t, C, T):
+def euler(t, C, T, h):
 	Tant = T
 	Cant = C
 	for i in range(2):
-		T = Tant + f2(t, Cant, Tant)*0.25
-		C = Cant + f1(t, Cant, Tant)*0.25
-		t += 0.25
+		T = Tant + f2(t, Cant, Tant)*h
+		C = Cant + f1(t, Cant, Tant)*h
+		t += h
 		Tant = T
 		Cant = C
 		print("(", t, ", ", C, ", ", T, ")")
 	return
-#euler(0, 2.5, 25)
+#euler(0, 2.5, 25, 0.25)
 
-def rk4(t, C, T):
+def rk4(t, C, T, h):
 	for i in range(2):
-		Td1 = f2(t, C, T)*0.25
-		Cd1 = f1(t, C, T)*0.25
+		Td1 = f2(t, C, T)*h
+		Cd1 = f1(t, C, T)*h
 
-		Td2 = f2(t + 0.25/2, C + Cd1/2, T + Td1/2)*0.25
-		Cd2 = f1(t + 0.25/2, C + Cd1/2, T + Td1/2)*0.25
+		Td2 = f2(t + 0.25/2, C + Cd1/2, T + Td1/2)*h
+		Cd2 = f1(t + 0.25/2, C + Cd1/2, T + Td1/2)*h
 
-		Td3 = f2(t + 0.25/2, C + Cd2/2, T + Td2/2)*0.25
-		Cd3 = f1(t + 0.25/2, C + Cd2/2, T + Td2/2)*0.25
+		Td3 = f2(t + 0.25/2, C + Cd2/2, T + Td2/2)*h
+		Cd3 = f1(t + 0.25/2, C + Cd2/2, T + Td2/2)*h
 
-		Td4 = f2(t + 0.25, C + Cd3, T + Td3)*0.25
-		Cd4 = f1(t + 0.25, C + Cd3, T + Td3)*0.25
+		Td4 = f2(t + 0.25, C + Cd3, T + Td3)*h
+		Cd4 = f1(t + 0.25, C + Cd3, T + Td3)*h
 
 		T += (Td2 + Td3)/3 + (Td1 + Td4)/6
 		C += (Cd2 + Cd3)/3 + (Cd1 + Cd4)/6
 
-		t += 0.25
+		t += h
 		print("(", t, ", ", C, ", ", T, ")")
 	return
 
-#rk4(0, 2.5, 25)
+rk4(0, 2.5, 25, 0.25)
 
 ###################################### Pergunta 5 ###############################################
 def w(x, y):
